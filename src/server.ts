@@ -30,7 +30,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   /**************************************************************************** */
 
   app.get('/filteredimage',async (req,res)=>{
-    let url = req.query.image_url;
+    const url = req.query.image_url as string;
     if(!url){
       res.status(404).json({error:"Image Url expected"})
     }
@@ -41,7 +41,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       res.sendStatus(422); 
     }
   })
-  
+
   //! END @TODO1
   
   // Root Endpoint

@@ -29,6 +29,19 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   /**************************************************************************** */
 
+  app.get('/filteredimage',async (req,res)=>{
+    let url = req.query.image_url;
+    if(!url){
+      res.status(404).json({error:"Image Url expected"})
+    }
+    try {
+      const filteredpath = await filterImageFromURL(url);
+      res.sendFile(filteredpath, () => deleteLocalFiles([filteredpath]));
+    } catch(error) {
+      res.sendStatus(422); 
+    }
+  })
+  
   //! END @TODO1
   
   // Root Endpoint
@@ -37,6 +50,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     res.send("try GET /filteredimage?image_url={{}}")
   } );
   
+
 
   // Start the Server
   app.listen( port, () => {

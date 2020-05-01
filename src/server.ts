@@ -1,4 +1,6 @@
 import express from 'express';
+import { Request, Response } from 'express';
+
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -29,14 +31,14 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   /**************************************************************************** */
 
-  app.get('/filteredimage',async (req,res)=>{
+  app.get('/filteredimage',async (req : Request,res : Response)=>{
     const url = req.query.image_url as string;
     if(!url){
       res.status(404).json({error:"Image Url expected"})
     }
     try {
       const filteredpath = await filterImageFromURL(url);
-      res.sendFile(filteredpath, () => deleteLocalFiles([filteredpath]));
+      res.status(200).sendFile(filteredpath, () => deleteLocalFiles([filteredpath]));
     } catch(error) {
       res.sendStatus(422); 
     }
